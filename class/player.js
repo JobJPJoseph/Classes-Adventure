@@ -1,9 +1,11 @@
+const { Food } = require('./food');
+
 class Player {
 
     constructor(name, startingRoom) {
         this.name = name;
-        this.currentRoom = startingRoom;
-        this.items = [];
+        this.currentRoom = startingRoom; // An instance: room
+        this.items = []; // array of instances
     }
 
     move(direction) {
@@ -32,24 +34,47 @@ class Player {
     }
 
     takeItem(itemName) {
+        // don't forget about the room instance 'currentRoom'
+        // What we are doing is taking an item from 'currentRoom'
+        // and putting it into 'this.items'
 
-        // Fill this in
+        // we should be able to do indexOf to get the index
+        // of the instance in this array
+        // Once we got the index we could splice a piece from the 'currentRoom'
+        // and push it into 'this.items'
 
+        const index = this.currentRoom.items.indexOf(this.currentRoom.getItemByName(itemName));
+        this.items.push(...this.currentRoom.items.splice(index, 1));
+        return true;
     }
 
     dropItem(itemName) {
-
-        // Fill this in
+        const index = this.items.indexOf(this.getItemByName(itemName));
+        this.currentRoom.items.push(...this.items.splice(index, 1));
+        return true;
     }
 
     eatItem(itemName) {
-        // Fill this in
+        const item = this.getItemByName(itemName);
+        if(!(item instanceof Food)) return false;
 
+        const index = this.items.indexOf(item);
+        this.items.splice(index, 1);
+
+        return true;
     }
 
     getItemByName(name) {
+        // We need to iterate thru the array for said item
+        // if said item is not found, return false;
 
-        // Fill this in
+        for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i];
+
+            if (item.name === name) return item;
+        }
+
+        return false;
     }
 }
 

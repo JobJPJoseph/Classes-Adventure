@@ -44,8 +44,16 @@ class Room {
     }
 
     getItemByName(name) {
+        // We need to iterate thru the array for said item
+        // if said item is not found, return false;
 
-        // Fill this in
+        for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i];
+
+            if (item.name === name) return item;
+        }
+
+        return false;
     }
 
 }
